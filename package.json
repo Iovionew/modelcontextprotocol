@@ -40,10 +40,10 @@
     "watch": "tsc --watch",
     "start": "node dist/index.js",
     "start:http": "node dist/http.js",
-    "start:http:public": "BIND_ADDRESS=0.0.0.0 ALLOWED_ORIGINS=* node dist/http.js",
+    "start:http:UNSAFE-public": "BIND_ADDRESS=0.0.0.0 ALLOWED_ORIGINS=* node dist/http.js",
     "dev": "tsx src/index.ts",
     "dev:http": "tsx src/http.ts",
-    "dev:http:public": "BIND_ADDRESS=0.0.0.0 ALLOWED_ORIGINS=* tsx src/http.ts",
+    "dev:http:UNSAFE-public": "BIND_ADDRESS=0.0.0.0 ALLOWED_ORIGINS=* tsx src/http.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage"

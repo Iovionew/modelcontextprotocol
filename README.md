@@ -129,8 +129,9 @@ For cloud or shared deployments, run the server in HTTP mode.
 | `PERPLEXITY_API_KEY` | Your Perplexity API key | *Required* |
 | `PERPLEXITY_BASE_URL` | Custom base URL for API requests | `https://api.perplexity.ai` |
 | `PORT` | HTTP server port | `8080` |
-| `BIND_ADDRESS` | Network interface to bind to | `0.0.0.0` |
-| `ALLOWED_ORIGINS` | CORS origins (comma-separated) | `*` |
+| `BIND_ADDRESS` | Network interface to bind to. Defaults to loopback. Set to `0.0.0.0` to expose on all interfaces. | `127.0.0.1` |
+| `ALLOWED_ORIGINS` | CORS origins (comma-separated). Defaults to empty (no cross-origin browser requests). Set to an explicit allowlist (e.g. `https://app.example.com`) or to `*` to allow any origin. | *(empty)* |
+| `ALLOWED_HOSTS` | Additional `Host` header values to accept (comma-separated). Loopback hosts on `PORT` are always allowed. Add the public hostname when binding to `0.0.0.0`. | *(loopback only)* |
 
 #### Docker
 
