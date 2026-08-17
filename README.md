@@ -56,6 +56,10 @@ claude
 codex mcp add perplexity --env PERPLEXITY_API_KEY="your_key_here" -- npx -y @perplexity-ai/mcp-server
 ```
 
+### Agent Plugins
+
+This repository is packaged as an [Agent Plugin](https://agent-plugins.org), so clients that support the standard can install it directly from this repository. The Agent Plugins format does not carry secrets, so set the `PERPLEXITY_API_KEY` environment variable through your client's plugin or MCP settings.
+
 ### Other MCP Clients
 
 Most clients can be configured manually using the same `mcpServers` wrapper in their client config (as shown for Cursor). If a client has a different schema, check its docs for the exact wrapper format.
