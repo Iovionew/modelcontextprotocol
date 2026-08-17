@@ -5,11 +5,15 @@ on:
     paths:
       - '.claude-plugin/**'
       - 'package.json'
+      - 'plugin.json'
+      - 'mcp.json'
   push:
     branches: [main]
     paths:
       - '.claude-plugin/**'
       - 'package.json'
+      - 'plugin.json'
+      - 'mcp.json'
 
 jobs:
   validate:
@@ -43,4 +47,24 @@ jobs:
           echo "Validating marketplace.json syntax..."
           cat .claude-plugin/marketplace.json | jq empty
           echo "✓ JSON syntax is valid"
+
+      - name: Validate Agent Plugins Manifests
+        run: |
+          curl -fsSL --retry 3 -o /tmp/plugin.schema.json https://agent-plugins.org/schemas/1.0.0/plugin.schema.json
+          curl -fsSL --retry 3 -o /tmp/mcp.schema.json https://agent-plugins.org/schemas/1.0.0/mcp.schema.json
+          npx --yes ajv-cli@5 validate --spec=draft2020 -s /tmp/plugin.schema.json -d plugin.json
+          npx --yes ajv-cli@5 validate --spec=draft2020 -s /tmp/mcp.schema.json -d mcp.json
+          echo "✓ plugin.json and mcp.json conform to Agent Plugins 1.0.0 schemas"
+
+      - name: Check Version Sync
+        run: |
+          PKG=$(jq -r '.version' package.json)
+          PLUGIN=$(jq -r '.version' plugin.json)
+          MARKETPLACE=$(jq -r '.plugins[0].version' .claude-plugin/marketplace.json)
+          echo "package.json=$PKG plugin.json=$PLUGIN marketplace.json=$MARKETPLACE"
+          if [ "$PKG" != "$PLUGIN" ] || [ "$PKG" != "$MARKETPLACE" ]; then
+            echo "Error: version mismatch across package.json, plugin.json, and .claude-plugin/marketplace.json"
+            exit 1
+          fi
+          echo "✓ Versions are in sync"
 
